@@ -8,19 +8,28 @@ import jakarta.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.time.LocalDateTime;
-
+import org.yaml.snakeyaml.*;
 // Google GenAI imports
 import com.google.genai.Client;
 import com.google.genai.types.GenerateContentResponse;
 
 @WebServlet("")
 public class HomeServlet extends HttpServlet {
-    private static final String API_KEY = "AIzaSyBhKDWT6qqeNMYSxV7_6s_xptAX1FIjyn0";
+    private String API_KEY;
     private Client client;
 
     @Override
     public void init() throws ServletException {
         super.init();
+        // Get API key from environment variable
+        API_KEY = System.getenv("GEMINI_API_KEY");
+        // If not found in environment, try system property (for local testing)
+        if (API_KEY == null || API_KEY.trim().isEmpty()) {
+            API_KEY = System.getProperty("GEMINI_API_KEY");
+        }
+        if (API_KEY == null || API_KEY.trim().isEmpty()) {
+            throw new ServletException("GEMINI_API_KEY environment variable is not set.");
+        }
         // Initialize the client once when the servlet is created
         client = Client.builder().apiKey(API_KEY).build();
     }
