@@ -1,7 +1,7 @@
 runtime: java11
 instance_class: F2
 env_variables:
-  GEMINI_API_KEY: "AIzaSyBhKDWT6qqeNMYSxV7_6s_xptAX1FIjyn0"
+  GEMINI_API_KEY: "YOUR_API_KEY"
 
 handlers:
   - url: /.*
